@@ -1,15 +1,24 @@
-import React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import styled from "styled-components";
+import Header from "./components/Header";
+
+const Wrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        Learn React
-      </header>
-    </div>
+    <Wrapper className="App">
+      <Header />
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route path={"/"} />
+          <Route path={"/tv"} />
+          <Route path={"/search"} />
+        </Switch>
+      </BrowserRouter>
+    </Wrapper>
   );
 }
 
