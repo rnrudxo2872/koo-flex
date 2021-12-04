@@ -1,78 +1,18 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
-import styled from "styled-components";
-
-const Nav = styled.nav`
-  display: flex;
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 100%;
-  position: fixed;
-  top: 0;
-  justify-content: space-between;
-`;
-
-const Col = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Logo = styled.svg`
-  margin: 0 10px;
-  margin-right: 50px;
-  width: 95px;
-  height: 70px;
-  fill: #e0604a;
-
-  path {
-    stroke-width: 4px;
-    stroke: white;
-  }
-`;
-
-const List = styled(motion.ul)`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Item = styled(motion.li)`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin-right: 10px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Pointer = styled(motion.div)`
-  width: 8px;
-  height: 8px;
-  background-color: red;
-  border-radius: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  bottom: -12px;
-`;
-
-const SearchWrapper = styled(motion.div)`
-  margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const SearchInput = styled(motion.input)`
-  transform-origin: center right;
-  margin-right: 5px;
-`;
-
-const SearchSvg = styled(motion.svg)`
-  height: 17px;
-`;
+import {
+  Col,
+  List,
+  Logo,
+  Nav,
+  Item,
+  Pointer,
+  SearchWrapper,
+  SearchInput,
+  SearchSvg,
+} from "../styleds/Header.styled";
+import { LogoVariant } from "../variants/Header.variants";
 
 function Header() {
   const [onSearch, setOnSearch] = useState(false);
@@ -86,6 +26,9 @@ function Header() {
     <Nav>
       <Col>
         <Logo
+          variants={LogoVariant}
+          initial={"init"}
+          whileHover={"hover"}
           xmlns="http://www.w3.org/2000/svg"
           width="1024"
           height="276.742"
