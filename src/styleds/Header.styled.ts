@@ -1,13 +1,19 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const Nav = styled.nav`
+export const Nav = styled(motion.nav)`
   display: flex;
-  background-color: rgba(0, 0, 0, 0.4);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
   width: 100%;
   position: fixed;
   top: 0;
   justify-content: space-between;
+  color: white;
+  text-shadow: 1px 1px 2px black;
 `;
 
 export const Col = styled.div`

@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useAnimation, useViewportScroll } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import {
   Col,
@@ -12,23 +12,58 @@ import {
   SearchInput,
   SearchSvg,
 } from "../styleds/Header.styled";
-import { LogoVariant } from "../variants/Header.variants";
+import { LogoVariant, NavVariant } from "../variants/Header.variants";
 
 function Header() {
   const [onSearch, setOnSearch] = useState(false);
   const HomeMatch = useRouteMatch("/");
   const TvMatch = useRouteMatch("/tv");
+  const { scrollY } = useViewportScroll();
+  const NavAnimation = useAnimation();
+  const LogoAnimation = useAnimation();
+  const SvgAnimation = useAnimation();
   const PointerId = "HeaderPointer";
 
-  const OnClickSearch = () => setOnSearch((prev) => !prev);
+  const OnClickSearch = () => {
+    if (onSearch) {
+      SvgAnimation.start({ x: 0 });
+    } else {
+      SvgAnimation.start({ x: -240 });
+    }
+    setOnSearch((prev) => !prev);
+  };
+
+  useEffect(() => {
+    function scrollingPage() {
+      if (scrollY.get() > 0) {
+        NavAnimation.start("scroll");
+        SvgAnimation.start({ fill: "white" });
+      } else {
+        NavAnimation.start("init");
+        SvgAnimation.start({ fill: "black" });
+      }
+    }
+
+    const HeaderBackgroundChange = scrollY.onChange(scrollingPage);
+
+    return () => {
+      HeaderBackgroundChange();
+    };
+  }, [NavAnimation, scrollY]);
+
+  const OnLogoHoverEnd = () => {
+    LogoAnimation.start("end");
+  };
 
   return (
-    <Nav>
+    <Nav variants={NavVariant} animate={NavAnimation} initial={"init"}>
       <Col>
         <Logo
           variants={LogoVariant}
+          animate={LogoAnimation}
           initial={"init"}
           whileHover={"hover"}
+          onHoverEnd={OnLogoHoverEnd}
           xmlns="http://www.w3.org/2000/svg"
           width="1024"
           height="276.742"
@@ -68,7 +103,7 @@ function Header() {
           />
           <SearchSvg
             onClick={OnClickSearch}
-            animate={{ x: onSearch ? -240 : 0 }}
+            animate={SvgAnimation}
             aria-hidden="true"
             focusable="false"
             xmlns="http://www.w3.org/2000/svg"
