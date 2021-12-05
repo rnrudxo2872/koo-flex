@@ -72,8 +72,11 @@ export const SearchWrapper = styled(motion.div)`
 export const SearchInput = styled(motion.input)`
   transform-origin: center right;
   margin-right: 5px;
+  padding: 1px;
+  padding-left: 40px;
 `;
 
 export const SearchSvg = styled(motion.svg)`
   height: 17px;
+  z-index: 1;
 `;

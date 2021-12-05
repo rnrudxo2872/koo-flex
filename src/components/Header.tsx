@@ -26,9 +26,9 @@ function Header() {
 
   const OnClickSearch = () => {
     if (onSearch) {
-      SvgAnimation.start({ x: 0 });
+      SvgAnimation.start({ x: 0, fill: scrollY.get() > 0 ? "white" : "black" });
     } else {
-      SvgAnimation.start({ x: -240 });
+      SvgAnimation.start({ x: -240, fill: "black" });
     }
     setOnSearch((prev) => !prev);
   };
@@ -49,7 +49,7 @@ function Header() {
     return () => {
       HeaderBackgroundChange();
     };
-  }, [NavAnimation, scrollY]);
+  }, [NavAnimation, SvgAnimation, scrollY]);
 
   const OnLogoHoverEnd = () => {
     LogoAnimation.start("end");
@@ -74,6 +74,7 @@ function Header() {
         <List>
           <Item>
             <Link to="/">Home</Link>
+
             {HomeMatch?.isExact && <Pointer layoutId={PointerId} />}
           </Item>
           <Item>
