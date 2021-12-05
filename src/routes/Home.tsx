@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getNowPlayings } from "../api";
 import { INowPlaying } from "../interfaces/moviedata.interface";
@@ -24,16 +24,27 @@ function Home() {
     getNowPlayings
   );
   const [slideIdx, setSlideIdx] = useState(0);
+  const [nowWidth, setNowWidth] = useState(window.innerWidth);
 
   const OnBannerClick = () => {
     if (data) {
       const TotalMovieSize = data.results.length - 1;
-      console.log(slideIdx, TotalMovieSize - PageOffset);
+
       setSlideIdx((prev) =>
         slideIdx >= TotalMovieSize - PageOffset ? 0 : prev + PageOffset
       );
     }
   };
+
+  useEffect(() => {
+    function handleResize() {
+      setNowWidth(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <MainWrapper>
@@ -55,6 +66,7 @@ function Home() {
           <Slider>
             <AnimatePresence>
               <Row
+                custom={nowWidth}
                 variants={SlideRowVariant}
                 initial={"init"}
                 animate={"come"}
@@ -66,6 +78,7 @@ function Home() {
                   .slice(slideIdx, 6 + slideIdx)
                   .map((val, idx) => (
                     <Box
+                      WidthLength={(nowWidth - 5 * 7 - 200) / 6}
                       key={val.id}
                       bgPhoto={makeImagePath(val.poster_path || "", "w500")}
                     ></Box>

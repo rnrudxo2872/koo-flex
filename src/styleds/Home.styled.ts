@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-const WidthLength = Math.floor((window.innerWidth - 5 * 7 - 200) / 6);
-
 export const Loader = styled.div`
   font-size: 50px;
   color: white;
@@ -63,11 +61,16 @@ export const Row = styled(motion.div)`
   right: 0;
 `;
 
-export const Box = styled(motion.div)<{ bgPhoto: string }>`
+interface IBox {
+  bgPhoto: string;
+  WidthLength: number;
+}
+
+export const Box = styled(motion.div)<IBox>`
   background-image: url(${(props) => props.bgPhoto});
   background-position: center center;
   background-size: cover;
   color: red;
-  width: ${`${WidthLength}px`};
-  height: ${`${WidthLength * 1.5}px`};
+  width: ${(props) => `${props.WidthLength}px`};
+  height: ${(props) => `${props.WidthLength * 1.5}px`};
 `;
