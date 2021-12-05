@@ -25,9 +25,12 @@ function Home() {
   );
   const [slideIdx, setSlideIdx] = useState(0);
   const [nowWidth, setNowWidth] = useState(window.innerWidth);
+  const [nowSilding, setNowSliding] = useState(false);
 
   const OnBannerClick = () => {
+    if (nowSilding) return;
     if (data) {
+      setNowSliding(true);
       const TotalMovieSize = data.results.length - 1;
 
       setSlideIdx((prev) =>
@@ -35,6 +38,7 @@ function Home() {
       );
     }
   };
+  const ToggleNowSlide = () => setNowSliding(false);
 
   useEffect(() => {
     function handleResize() {
@@ -64,7 +68,7 @@ function Home() {
             </OverView>
           </Banner>
           <Slider>
-            <AnimatePresence>
+            <AnimatePresence initial={false} onExitComplete={ToggleNowSlide}>
               <Row
                 custom={nowWidth}
                 variants={SlideRowVariant}
