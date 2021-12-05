@@ -17,3 +17,24 @@ export const SlideRowVariant: Variants = {
     },
   },
 };
+
+export const BoxVariant: Variants = {
+  init: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    transition: {
+      delay: 0.5,
+    },
+  },
+};
+
+export const InfoVariant: Variants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+    },
+  },
+};

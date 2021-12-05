@@ -7,6 +7,8 @@ import { MainWrapper } from "../styleds/default.styled";
 import {
   Banner,
   Box,
+  Info,
+  InfoWrapper,
   Loader,
   OverView,
   Row,
@@ -14,7 +16,11 @@ import {
   Title,
 } from "../styleds/Home.styled";
 import { makeImagePath } from "../utils";
-import { SlideRowVariant } from "../variants/Home.variant";
+import {
+  BoxVariant,
+  InfoVariant,
+  SlideRowVariant,
+} from "../variants/Home.variant";
 
 const PageOffset = 6;
 
@@ -82,10 +88,17 @@ function Home() {
                   .slice(slideIdx, 6 + slideIdx)
                   .map((val, idx) => (
                     <Box
-                      WidthLength={(nowWidth - 5 * 7 - 200) / 6}
-                      key={val.id}
                       bgPhoto={makeImagePath(val.poster_path || "", "w500")}
-                    ></Box>
+                      WidthLength={(nowWidth - 5 * 7 - 200) / 6}
+                      variants={BoxVariant}
+                      whileHover={"hover"}
+                      initial={"init"}
+                      key={val.id}
+                    >
+                      <InfoWrapper>
+                        <Info variants={InfoVariant}>{val.title}</Info>
+                      </InfoWrapper>
+                    </Box>
                   ))}
               </Row>
             </AnimatePresence>
