@@ -14,6 +14,7 @@ export const Nav = styled(motion.nav)`
   justify-content: space-between;
   color: white;
   text-shadow: 1px 1px 2px black;
+  z-index: 5;
 `;
 
 export const Col = styled.div`

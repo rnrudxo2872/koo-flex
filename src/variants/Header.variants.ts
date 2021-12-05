@@ -4,7 +4,7 @@ export const NavVariant: Variants = {
   init: {
     background: `linear-gradient(
       0deg,
-      rgba(255, 255, 255, 0) 0%,
+      rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 1) 100%
     )`,
   },
