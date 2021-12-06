@@ -16,7 +16,7 @@ import { LogoVariant, NavVariant } from "../variants/Header.variants";
 
 function Header() {
   const [onSearch, setOnSearch] = useState(false);
-  const HomeMatch = useRouteMatch("/");
+  const HomeMatch = useRouteMatch(["/", "/movies/:movieId"]);
   const TvMatch = useRouteMatch("/tv");
   const { scrollY } = useViewportScroll();
   const NavAnimation = useAnimation();
@@ -75,7 +75,7 @@ function Header() {
           <Item>
             <Link to="/">Home</Link>
 
-            {HomeMatch?.isExact && <Pointer layoutId={PointerId} />}
+            {HomeMatch && <Pointer layoutId={PointerId} />}
           </Item>
           <Item>
             <Link to="/tv">TV Shows</Link>

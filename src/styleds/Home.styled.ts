@@ -99,3 +99,14 @@ export const Info = styled(motion.div)`
   width: 100%;
   text-align: center;
 `;
+
+export const InfoModal = styled(motion.div)`
+  width: 300px;
+  height: 300px;
+  background-color: blue;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+`;

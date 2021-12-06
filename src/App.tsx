@@ -22,7 +22,7 @@ function App() {
           <Switch>
             <Route path={"/tv"} component={Tv} />
             <Route path={"/search"} component={Search} />
-            <Route path={"/"} component={Home} />
+            <Route path={["/", "/movies/:movieId"]} component={Home} />
           </Switch>
         </BrowserRouter>
       </Wrapper>

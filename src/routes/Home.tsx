@@ -1,6 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { getNowPlayings } from "../api";
 import { INowPlaying } from "../interfaces/moviedata.interface";
 import { MainWrapper } from "../styleds/default.styled";
@@ -8,6 +9,7 @@ import {
   Banner,
   Box,
   Info,
+  InfoModal,
   InfoWrapper,
   Loader,
   OverView,
@@ -32,6 +34,9 @@ function Home() {
   const [slideIdx, setSlideIdx] = useState(0);
   const [nowWidth, setNowWidth] = useState(window.innerWidth);
   const [nowSilding, setNowSliding] = useState(false);
+  const MovieModalMatch =
+    useRouteMatch<{ movieId: string }>("/movies/:movieId");
+  const PageHistory = useHistory();
 
   const OnBannerClick = () => {
     if (nowSilding) return;
@@ -45,6 +50,8 @@ function Home() {
     }
   };
   const ToggleNowSlide = () => setNowSliding(false);
+  const OnClickMovieBox = (movieId: string) =>
+    PageHistory.push(`/movies/${movieId}`);
 
   useEffect(() => {
     function handleResize() {
@@ -93,6 +100,8 @@ function Home() {
                       variants={BoxVariant}
                       whileHover={"hover"}
                       initial={"init"}
+                      layoutId={val.id + ""}
+                      onClick={() => OnClickMovieBox(val.id + "")}
                       key={val.id}
                     >
                       <InfoWrapper>
@@ -103,6 +112,11 @@ function Home() {
               </Row>
             </AnimatePresence>
           </Slider>
+          <AnimatePresence>
+            {MovieModalMatch?.isExact ? (
+              <InfoModal layoutId={MovieModalMatch.params.movieId}></InfoModal>
+            ) : null}
+          </AnimatePresence>
         </>
       )}
     </MainWrapper>
