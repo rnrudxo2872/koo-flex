@@ -100,13 +100,23 @@ export const Info = styled(motion.div)`
   text-align: center;
 `;
 
-export const InfoModal = styled(motion.div)`
+export const InfoModal = styled(motion.div)<{ nowY: number }>`
   width: 300px;
   height: 300px;
-  background-color: blue;
   position: absolute;
-  top: 0;
+  background-color: rgba(30, 30, 30, 1);
+  border-radius: 12px;
+  top: ${(props) => props.nowY}px;
   left: 0;
   right: 0;
   margin: 0 auto;
+`;
+
+export const InfoModalOverlay = styled(motion.div)`
+  z-index: 20;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
 `;

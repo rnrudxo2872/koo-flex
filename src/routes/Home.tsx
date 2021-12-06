@@ -1,4 +1,4 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, useViewportScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useHistory, useRouteMatch } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
   Box,
   Info,
   InfoModal,
+  InfoModalOverlay,
   InfoWrapper,
   Loader,
   OverView,
@@ -20,6 +21,7 @@ import {
 import { makeImagePath } from "../utils";
 import {
   BoxVariant,
+  InfoModalOverlayVariant,
   InfoVariant,
   SlideRowVariant,
 } from "../variants/Home.variant";
@@ -37,6 +39,7 @@ function Home() {
   const MovieModalMatch =
     useRouteMatch<{ movieId: string }>("/movies/:movieId");
   const PageHistory = useHistory();
+  const { scrollY } = useViewportScroll();
 
   const OnBannerClick = () => {
     if (nowSilding) return;
@@ -52,6 +55,7 @@ function Home() {
   const ToggleNowSlide = () => setNowSliding(false);
   const OnClickMovieBox = (movieId: string) =>
     PageHistory.push(`/movies/${movieId}`);
+  const OnClickModalOverlay = () => PageHistory.push("/");
 
   useEffect(() => {
     function handleResize() {
@@ -114,7 +118,18 @@ function Home() {
           </Slider>
           <AnimatePresence>
             {MovieModalMatch?.isExact ? (
-              <InfoModal layoutId={MovieModalMatch.params.movieId}></InfoModal>
+              <>
+                <InfoModalOverlay
+                  variants={InfoModalOverlayVariant}
+                  onClick={OnClickModalOverlay}
+                  exit={"exit"}
+                />
+                <InfoModal
+                  animate={{ zIndex: 99 }}
+                  nowY={scrollY.get() + 100}
+                  layoutId={MovieModalMatch.params.movieId}
+                ></InfoModal>
+              </>
             ) : null}
           </AnimatePresence>
         </>
