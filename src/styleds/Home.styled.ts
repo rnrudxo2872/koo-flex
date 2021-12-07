@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { makeImagePath } from "../utils";
 
 export const Loader = styled.div`
   font-size: 50px;
@@ -116,7 +117,16 @@ export const InfoModalOverlay = styled(motion.div)`
   z-index: 20;
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
+`;
+
+export const InfoModalCover = styled.div<{ bgCover: string }>`
+  width: 100%;
+  height: 200px;
+  background-image: url(${(props) => makeImagePath(props.bgCover)});
+  background-position: center center;
+  background-size: cover;
 `;

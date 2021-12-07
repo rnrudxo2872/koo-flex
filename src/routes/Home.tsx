@@ -10,6 +10,7 @@ import {
   Box,
   Info,
   InfoModal,
+  InfoModalCover,
   InfoModalOverlay,
   InfoWrapper,
   Loader,
@@ -41,6 +42,12 @@ function Home() {
   const PageHistory = useHistory();
   const { scrollY } = useViewportScroll();
 
+  const clickedMovieInfo =
+    MovieModalMatch?.params.movieId &&
+    data?.results.find(
+      (movie) => MovieModalMatch.params.movieId === String(movie.id)
+    );
+
   const OnBannerClick = () => {
     if (nowSilding) return;
     if (data) {
@@ -61,7 +68,6 @@ function Home() {
     function handleResize() {
       setNowWidth(window.innerWidth);
     }
-
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
@@ -106,6 +112,13 @@ function Home() {
                       initial={"init"}
                       layoutId={val.id + ""}
                       onClick={() => OnClickMovieBox(val.id + "")}
+                      style={{
+                        opacity:
+                          MovieModalMatch?.isExact &&
+                          MovieModalMatch.params.movieId === String(val.id)
+                            ? 0
+                            : 1,
+                      }}
                       key={val.id}
                     >
                       <InfoWrapper>
@@ -128,7 +141,11 @@ function Home() {
                   animate={{ zIndex: 99 }}
                   nowY={scrollY.get() + 100}
                   layoutId={MovieModalMatch.params.movieId}
-                ></InfoModal>
+                >
+                  {clickedMovieInfo ? (
+                    <InfoModalCover bgCover={clickedMovieInfo.backdrop_path} />
+                  ) : null}
+                </InfoModal>
               </>
             ) : null}
           </AnimatePresence>
