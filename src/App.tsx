@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Home from "./routes/Home";
 import Search from "./routes/Search";
 import Tv from "./routes/Tv";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,6 +14,18 @@ const Wrapper = styled.div`
 
 function App() {
   const AppQueryClient = new QueryClient();
+
+  useEffect(() => {
+    const tag = document.createElement("script");
+    const script = document.getElementsByTagName("script")[0];
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    script.parentNode?.insertBefore(tag, script);
+
+    window.onYouTubeIframeAPIReady = (e) => {
+      console.log("hi");
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={AppQueryClient}>
