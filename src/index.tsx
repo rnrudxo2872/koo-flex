@@ -3,12 +3,6 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./index.css";
 
-declare global {
-  interface Window {
-    wef: any;
-  }
-}
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

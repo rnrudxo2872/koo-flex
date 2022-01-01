@@ -22,3 +22,7 @@ export interface INowPlaying {
   };
   results: IMovie[];
 }
+
+export interface IMatchMovie {
+  movieId: string;
+}

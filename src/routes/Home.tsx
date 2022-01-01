@@ -3,29 +3,18 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { getNowPlayings } from "../api";
-import { INowPlaying } from "../interfaces/moviedata.interface";
+import MovieModal from "../components/movieModal";
+import MovieRow from "../components/movieRow";
+import { IMatchMovie, INowPlaying } from "../interfaces/moviedata.interface";
 import { MainWrapper } from "../styleds/default.styled";
 import {
   Banner,
-  Box,
-  Info,
-  InfoModal,
-  InfoModalCover,
-  InfoModalOverlay,
-  InfoWrapper,
   Loader,
   OverView,
-  Row,
   Slider,
   Title,
 } from "../styleds/Home.styled";
 import { makeImagePath } from "../utils";
-import {
-  BoxVariant,
-  InfoModalOverlayVariant,
-  InfoVariant,
-  SlideRowVariant,
-} from "../variants/Home.variant";
 
 const PageOffset = 6;
 
@@ -37,10 +26,8 @@ function Home() {
   const [slideIdx, setSlideIdx] = useState(0);
   const [nowWidth, setNowWidth] = useState(window.innerWidth);
   const [nowSilding, setNowSliding] = useState(false);
-  const MovieModalMatch =
-    useRouteMatch<{ movieId: string }>("/movies/:movieId");
+  const MovieModalMatch = useRouteMatch<IMatchMovie>("/movies/:movieId");
   const PageHistory = useHistory();
-  const { scrollY } = useViewportScroll();
 
   const clickedMovieInfo =
     MovieModalMatch?.params.movieId &&
@@ -91,64 +78,20 @@ function Home() {
             </OverView>
           </Banner>
           <Slider>
-            <AnimatePresence initial={false} onExitComplete={ToggleNowSlide}>
-              <Row
-                custom={nowWidth}
-                variants={SlideRowVariant}
-                initial={"init"}
-                animate={"come"}
-                exit={"exit"}
-                key={slideIdx}
-              >
-                {data?.results
-                  .slice(1)
-                  .slice(slideIdx, 6 + slideIdx)
-                  .map((val, idx) => (
-                    <Box
-                      bgPhoto={makeImagePath(val.poster_path || "", "w500")}
-                      WidthLength={(nowWidth - 5 * 7 - 200) / 6}
-                      variants={BoxVariant}
-                      whileHover={"hover"}
-                      initial={"init"}
-                      layoutId={val.id + ""}
-                      onClick={() => OnClickMovieBox(val.id + "")}
-                      style={{
-                        opacity:
-                          MovieModalMatch?.isExact &&
-                          MovieModalMatch.params.movieId === String(val.id)
-                            ? 0
-                            : 1,
-                      }}
-                      key={val.id}
-                    >
-                      <InfoWrapper>
-                        <Info variants={InfoVariant}>{val.title}</Info>
-                      </InfoWrapper>
-                    </Box>
-                  ))}
-              </Row>
-            </AnimatePresence>
+            <MovieRow
+              ToggleNowSlide={ToggleNowSlide}
+              MovieModalMatch={MovieModalMatch}
+              OnClickMovieBox={OnClickMovieBox}
+              data={data}
+              nowWidth={nowWidth}
+              slideIdx={slideIdx}
+            />
           </Slider>
-          <AnimatePresence>
-            {MovieModalMatch?.isExact ? (
-              <>
-                <InfoModalOverlay
-                  variants={InfoModalOverlayVariant}
-                  onClick={OnClickModalOverlay}
-                  exit={"exit"}
-                />
-                <InfoModal
-                  animate={{ zIndex: 99 }}
-                  nowY={scrollY.get() + 100}
-                  layoutId={MovieModalMatch.params.movieId}
-                >
-                  {clickedMovieInfo ? (
-                    <InfoModalCover bgCover={clickedMovieInfo.backdrop_path} />
-                  ) : null}
-                </InfoModal>
-              </>
-            ) : null}
-          </AnimatePresence>
+          <MovieModal
+            MovieModalMatch={MovieModalMatch}
+            OnClickModalOverlay={OnClickModalOverlay}
+            clickedMovieInfo={clickedMovieInfo}
+          />
         </>
       )}
     </MainWrapper>
