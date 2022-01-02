@@ -49,58 +49,6 @@ export const Slider = styled(motion.div)`
   display: flex;
 `;
 
-export const Row = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  width: 95%;
-  gap: 10px;
-  position: absolute;
-  top: -100px;
-  z-index: 1;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-`;
-
-interface IBox {
-  bgPhoto: string;
-  WidthLength: number;
-}
-
-export const Box = styled(motion.div)<IBox>`
-  background-image: url(${(props) => props.bgPhoto});
-  background-position: center center;
-  background-size: cover;
-  color: red;
-  width: ${(props) => `${props.WidthLength + 12}px`};
-  height: ${(props) => `${props.WidthLength * 1.5}px`};
-
-  &:first-child {
-    transform-origin: center left;
-  }
-
-  &:last-child {
-    transform-origin: center right;
-  }
-`;
-
-export const InfoWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-
-export const Info = styled(motion.div)`
-  font-size: 15px;
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-`;
-
 export const InfoModal = styled(motion.div)<{ nowY: number }>`
   width: 300px;
   height: 300px;
