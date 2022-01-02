@@ -14,23 +14,36 @@ import {
   BoxVariant,
   InfoVariant,
   SlideRowVariant,
-} from "../variants/Home.variant";
+} from "../variants/movieRow.variants";
 
 function MovieRow(props: IMovieRowProps) {
   const { pageOffset, data, OnClickMovieBox, MovieModalMatch } = props;
 
   const [slideIdx, setSlideIdx] = useState(0);
   const [nowSilding, setNowSliding] = useState(false);
+  const [isBack, setIsBack] = useState(false);
 
   const onClickNextButton = () => {
-    console.log("click next button");
     if (nowSilding) return;
     if (data) {
       setNowSliding(true);
       const TotalMovieSize = data.results.length - 1;
 
+      setIsBack(false);
       setSlideIdx((prev) =>
         prev >= TotalMovieSize - pageOffset ? 0 : prev + pageOffset
+      );
+    }
+  };
+  const onClickPrevButton = () => {
+    if (nowSilding) return;
+    if (data) {
+      const lastIndex =
+        Math.floor((data.results.length - 1) / pageOffset) * pageOffset;
+
+      setIsBack(true);
+      setSlideIdx((prev) =>
+        0 > prev - pageOffset ? lastIndex : prev - pageOffset
       );
     }
   };
@@ -39,12 +52,16 @@ function MovieRow(props: IMovieRowProps) {
   return (
     <>
       <SlideButtonWrapper>
-        <SlideButton>{"<"}</SlideButton>
+        <SlideButton onClick={onClickPrevButton}>{"<"}</SlideButton>
         <SlideButton onClick={onClickNextButton}>{">"}</SlideButton>
       </SlideButtonWrapper>
-      <AnimatePresence initial={false} onExitComplete={ToggleNowSlide}>
+      <AnimatePresence
+        initial={false}
+        onExitComplete={ToggleNowSlide}
+        custom={isBack ? -window.innerWidth : window.innerWidth}
+      >
         <Row
-          custom={window.innerWidth}
+          custom={isBack ? -window.innerWidth : window.innerWidth}
           variants={SlideRowVariant}
           initial={"init"}
           animate={"come"}

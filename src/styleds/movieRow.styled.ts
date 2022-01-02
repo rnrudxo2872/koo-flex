@@ -61,7 +61,16 @@ export const SlideButtonWrapper = styled.section`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  top: -100px;
+  height: 40vh;
 `;
+
 export const SlideButton = styled.button`
   z-index: 2;
+  background-color: #412728;
+  border: none;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: #a6a5a8;
+  border-radius: 4px;
+  min-height: 197.25px;
 `;
